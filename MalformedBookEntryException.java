@@ -1,12 +1,10 @@
 /**
  * Thrown when a catalog entry has missing fields, empty fields,
- * or an invalid copies value (not a positive integer).
+ * or an invalid copies value (less than 0).
  */
 public class MalformedBookEntryException extends BookCatalogException {
 
     /**
-     * Constructs a new MalformedBookEntryException with the given message.
-     *
      * @param message a description of what is malformed in the entry
      */
     public MalformedBookEntryException(String message) {

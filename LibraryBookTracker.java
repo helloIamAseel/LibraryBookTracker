@@ -4,35 +4,19 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-/**
- * LibraryBookTracker is a command-line utility that manages
- * a text-based catalog of books stored in a .txt file.
- *
- * <p>Usage: java LibraryBookTracker &lt;catalogFile.txt&gt; &lt;operation&gt;</p>
- *
- * <p>The operation can be:
- * <ul>
- *   <li>A title keyword — searches books by title</li>
- *   <li>A 13-digit ISBN — searches books by ISBN</li>
- *   <li>A new record (title:author:isbn:copies) — adds a book to the catalog</li>
- * </ul>
- * </p>
- */
+
 public class LibraryBookTracker {
 
-    static int validRecords  = 0;
-    static int searchResults = 0;
-    static int booksAdded    = 0;
-    static int errorCount    = 0;
+    private static int validRecords  = 0;
+    private static int searchResults = 0;
+    private static int booksAdded    = 0;
+    private static int errorCount    = 0;
 
-    static Path errorLogPath;
+    private static Path errorLogPath;
 
     /**
-     * Entry point of the program. Validates arguments, reads the catalog,
-     * determines the operation, and executes it.
-     *
      * @param args command-line arguments where args[0] is the catalog file
-     *             and args[1] is the operation
+     *              and args[1] is the operation
      */
     public static void main(String[] args) {
 
@@ -103,15 +87,12 @@ public class LibraryBookTracker {
     }
 
     /**
-     * Parses a single line from the catalog file into a Book object.
-     * The line must follow the format: Title:Author:ISBN:Copies
-     *
      * @param line the raw text line from the catalog file
      * @return a valid Book object constructed from the line
      * @throws MalformedBookEntryException if any field is missing, empty, or copies is invalid
-     * @throws InvalidISBNException        if the ISBN is not exactly 13 numeric digits
+     * @throws InvalidISBNException if the ISBN is not exactly 13 numeric digits
      */
-    static Book parseLine(String line) throws BookCatalogException {
+    public static Book parseLine(String line) throws BookCatalogException {
         String[] parts = line.split(":", -1);
 
         if (parts.length != 4) {
@@ -149,36 +130,27 @@ public class LibraryBookTracker {
     }
 
     /**
-     * Checks whether the given argument is a 13-digit ISBN.
-     *
      * @param arg the operation argument from the command line
      * @return true if the argument is exactly 13 digits, false otherwise
      */
-    static boolean isISBN(String arg) {
+    public static boolean isISBN(String arg) {
         return arg.matches("\\d{13}");
     }
 
     /**
-     * Checks whether the given argument is a new book record.
-     * A new record contains exactly 3 colons (title:author:isbn:copies).
-     *
      * @param arg the operation argument from the command line
      * @return true if the argument contains exactly 3 colons, false otherwise
      */
-    static boolean isNewRecord(String arg) {
+    public static boolean isNewRecord(String arg) {
         long colons = arg.chars().filter(c -> c == ':').count();
         return colons == 3;
     }
 
     /**
-     * Searches the catalog for books whose title contains the given keyword
-     * (case-insensitive) and prints all matches in aligned columns.
-     * Logs an error if no matches are found.
-     *
      * @param catalog the list of books loaded from the catalog file
      * @param keyword the title keyword to search for
      */
-    static void doTitleSearch(List<Book> catalog, String keyword) {
+    public static void doTitleSearch(List<Book> catalog, String keyword) {
         String lowerKey = keyword.toLowerCase();
         List<Book> matches = new ArrayList<>();
         for (Book b : catalog) {
@@ -203,14 +175,11 @@ public class LibraryBookTracker {
     }
 
     /**
-     * Searches the catalog for a book with an ISBN exactly matching the given value.
-     * Prints the result if exactly one match is found.
-     *
      * @param catalog the list of books loaded from the catalog file
      * @param isbn    the 13-digit ISBN to search for
      * @throws DuplicateISBNException if more than one book with the same ISBN is found
      */
-    static void doISBNSearch(List<Book> catalog, String isbn) {
+    public static void doISBNSearch(List<Book> catalog, String isbn) {
         List<Book> matches = new ArrayList<>();
         for (Book b : catalog) {
             if (b.getIsbn().equals(isbn)) {
@@ -238,15 +207,12 @@ public class LibraryBookTracker {
     }
 
     /**
-     * Parses and validates a new book record, adds it to the catalog,
-     * sorts the catalog alphabetically by title, and saves it back to the file.
-     *
      * @param catalog  the list of books currently in the catalog
      * @param filePath the path to the catalog file to write to
      * @param record   the new book record string in Title:Author:ISBN:Copies format
      * @throws IOException if the file cannot be written
      */
-    static void doAddBook(List<Book> catalog, Path filePath, String record) throws IOException {
+    public static void doAddBook(List<Book> catalog, Path filePath, String record) throws IOException {
         try {
             Book newBook = parseLine(record);
 
@@ -274,30 +240,25 @@ public class LibraryBookTracker {
     /**
      * Prints the table header row with column names in aligned format.
      */
-    static void printHeader() {
+    public static void printHeader() {
         System.out.printf("%-30s %-20s %-15s %5s%n",
             "Title", "Author", "ISBN", "Copies");
         System.out.println("-".repeat(72));
     }
 
     /**
-     * Prints a single book's details in aligned columns.
-     *
      * @param b the Book object to print
      */
-    static void printBook(Book b) {
+    public static void printBook(Book b) {
         System.out.printf("%-30s %-20s %-15s %5d%n",
             b.getTitle(), b.getAuthor(), b.getIsbn(), b.getCopies());
     }
 
     /**
-     * Appends one error entry to the errors.log file located in the same
-     * directory as the catalog file.
-     *
      * @param offendingText the text that caused the error (a bad catalog line or bad argument)
      * @param e             the exception that was thrown, used for its class name and message
      */
-    static void logError(String offendingText, Exception e) {
+    public static void logError(String offendingText, Exception e) {
         if (errorLogPath == null) return;
 
         String timestamp = LocalDateTime.now()

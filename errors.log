@@ -1,1 +1,7 @@
 [2026-02-22 12:51:44] INVALID INPUT: "123" - MalformedBookEntryException: No results for title keyword: 123
+[2026-02-23 05:57:35] INVALID INPUT: "Effective" - MalformedBookEntryException: No results for title keyword: Effective
+[2026-02-23 06:00:00] INVALID INPUT: "9780134685991" - DuplicateISBNException: More than one book found with ISBN: 9780134685991
+[2026-02-23 06:04:58] INVALID INPUT: "Some Book::9780596009205:3" - MalformedBookEntryException: Author is empty
+[2026-02-23 06:05:44] INVALID INPUT: "Some Book:Some Author:12345:3" - InvalidISBNException: ISBN must be exactly 13 digits, got: '12345'
+[2026-02-23 06:06:02] INVALID INPUT: "Some Book:Some Author:9780596009205:0" - MalformedBookEntryException: Copies must be > 0, got: 0
+[2026-02-23 06:06:17] INVALID INPUT: "Some Book:Some Author:9780596009205:abc" - MalformedBookEntryException: Copies is not an integer: 'abc'

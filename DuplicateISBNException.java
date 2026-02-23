@@ -4,8 +4,6 @@
 public class DuplicateISBNException extends BookCatalogException {
 
     /**
-     * Constructs a new DuplicateISBNException with the given message.
-     *
      * @param message a description of the duplicate ISBN error
      */
     public DuplicateISBNException(String message) {

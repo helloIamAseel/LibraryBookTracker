@@ -4,8 +4,6 @@
 public class InsufficientArgumentsException extends BookCatalogException {
 
     /**
-     * Constructs a new InsufficientArgumentsException with the given message.
-     *
      * @param message a description of the missing arguments error
      */
     public InsufficientArgumentsException(String message) {

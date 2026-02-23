@@ -5,8 +5,6 @@
 public class BookCatalogException extends Exception {
 
     /**
-     * Constructs a new BookCatalogException with the given message.
-     *
      * @param message a description of the error
      */
     public BookCatalogException(String message) {
